@@ -1,0 +1,10 @@
+galaxy_info:
+  role_name: matomo
+  author: Marwen Ghodben
+  description: Install matomo
+  company: Comwork
+
+  min_ansible_version: 2.2
+
+  platforms:
+    - name: CentOS

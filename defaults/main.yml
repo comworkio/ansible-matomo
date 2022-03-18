@@ -1,0 +1,13 @@
+---
+matomo_trusted_host: matomo.changeit.org
+matomo_version: 4.8.0
+matomo_mysql_port: 3380
+matomo_mysql_max_allowed_packet: 512MB
+matomo_mysql_tables_prefix: matomo_
+matomo_mysql_host: matomo_db
+matomo_mysql_database: matomo
+matomo_mysql_user: root
+matomo_mysql_password: changeit
+matomo_salt: changeit
+matomo_http_port: 3200
+matomo_force_recreate: true

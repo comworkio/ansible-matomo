@@ -1,0 +1,26 @@
+---
+- name: Create missing directories
+  become: yes
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: '0755'
+    recurse: "{{ item.recurse }}"
+  with_items:
+    - { path: "{{ node_home }}/config-matomo", recurse: no}
+
+- name: Create matomo files
+  become: yes
+  template:
+    src: "{{ item.template }}.j2"
+    dest: "{{ item.path }}/{{ item.template }}"
+    mode: "{{ item.mode }}"
+    group: docker
+  with_items:
+    - { template: docker-compose-matomo.yml , path: "{{ node_home }}", mode: '0644' }
+    - { template: matomo_start.sh , path: "{{ node_home }}", mode: '0755' }
+    - { template: config.php.ini , path: "{{ node_home }}/config-matomo", mode: '0644' }
+
+- name: Run the container
+  become: yes
+  command: "bash {{ node_home }}/matomo_start.sh"

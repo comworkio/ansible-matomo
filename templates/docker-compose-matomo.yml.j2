@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  matomo_db:
+    image: mysql
+    command: --max-allowed-packet={{ matomo_mysql_max_allowed_packet }}
+    cap_add:
+      - SYS_NICE
+    restart: always
+    container_name: {{ matomo_mysql_host }}
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE={{ matomo_mysql_database }}
+      - MYSQL_ROOT_PASSWORD={{ matomo_mysql_password }}
+    networks:
+      - private-net
+    ports:
+      - "{{ matomo_mysql_port }}:3306"
+
+  matomo-app:
+    image: matomo:{{ matomo_version }}
+    restart: always
+    container_name: motomo_app
+    volumes:
+      - ./config-matomo/config.php.ini:/var/www/html/config/config.php.ini:z
+    environment:
+      - MATOMO_DATABASE_HOST={{ matomo_mysql_host }}
+      - MATOMO_DATABASE_USERNAME={{ matomo_mysql_user }}
+      - MATOMO_DATABASE_PASSWORD={{ matomo_mysql_password }}
+      - MATOMO_DATABASE_DBNAME={{ matomo_mysql_database }}
+    ports:
+      - {{ matomo_http_port }}:80
+    networks:
+      - private-net
+      - public-net
+    depends_on:
+      - "matomo_db"
+networks:
+  private-net:
+    internal: true
+  public-net:
+    external: false
+
+volumes:
+  database:
+  matomo:
