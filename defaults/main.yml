@@ -1,6 +1,6 @@
 ---
 matomo_trusted_host: matomo.changeit.org
-matomo_version: 4.9.0
+matomo_version: 4.9.1
 matomo_mysql_port: 3380
 matomo_mysql_max_allowed_packet: 512MB
 matomo_mysql_tables_prefix: matomo_
